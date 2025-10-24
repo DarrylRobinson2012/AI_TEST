@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Calendar & Booking</h2>
+<form method="post" action="{{ url_for('bookings.create_booking') }}" class="row g-3 mb-4">
+  <div class="col-md-3">
+    <label class="form-label">Service</label>
+    <select name="service_type" class="form-select" required>
+      <option value="lesson">Swimming Lesson</option>
+      <option value="therapy">Aqua Therapy</option>
+      <option value="performance">Performance Training</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Start Time</label>
+    <input type="datetime-local" name="start_time" class="form-control" required />
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Duration (minutes)</label>
+    <input type="number" name="duration" class="form-control" value="60" min="30" step="15" />
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Notes</label>
+    <input type="text" name="notes" class="form-control" />
+  </div>
+  <div class="col-12">
+    <button class="btn btn-success" type="submit">Request Booking</button>
+  </div>
+</form>
+
+<h4>Your Bookings</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Status</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in bookings %}
+    <tr>
+      <td>{{ b.service_type }}</td>
+      <td>{{ b.start_time }}</td>
+      <td>{{ b.end_time }}</td>
+      <td>{{ b.status }}</td>
+      <td>{{ b.notes }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5">No bookings yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
